@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise AI A-Team · Full Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c10;--s1:#111318;--s2:#181c24;--s3:#1e2330;
+  --border:#252a35;--border2:#313847;
+  --text:#e8eaf0;--dim:#9ca3af;--muted:#5a6070;
+  --blue:#00d4ff;--purple:#a78bfa;--green:#10b981;
+  --amber:#f59e0b;--red:#ef4444;--teal:#14b8a6;--pink:#f472b6;--indigo:#818cf8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;line-height:1.65;}
+
+/* HERO */
+.hero{padding:72px 56px 60px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 900px 500px at 70% -20%,#7c3aed15,transparent 70%),radial-gradient(ellipse 600px 400px at 0% 100%,#00d4ff08,transparent 60%);pointer-events:none;}
+.hero-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--blue);text-transform:uppercase;margin-bottom:18px;}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(40px,5.5vw,72px);font-weight:800;line-height:1.0;letter-spacing:-1.5px;margin-bottom:18px;}
+.hero h1 span{color:var(--blue);}
+.hero-desc{font-size:15px;color:var(--dim);max-width:640px;margin-bottom:28px;line-height:1.7;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1px;padding:4px 10px;border-radius:2px;border:1px solid;}
+.cb{color:var(--blue);border-color:#00d4ff30;background:#00d4ff0a;}
+.cp{color:var(--purple);border-color:#a78bfa30;background:#7c3aed0a;}
+.cg{color:var(--green);border-color:#10b98130;background:#10b9810a;}
+.ca{color:var(--amber);border-color:#f59e0b30;background:#f59e0b0a;}
+.cr{color:var(--red);border-color:#ef444430;background:#ef44440a;}
+.ci{color:var(--indigo);border-color:#818cf830;background:#818cf80a;}
+
+/* TOC */
+.toc{background:var(--s1);border-bottom:1px solid var(--border);padding:16px 56px;display:flex;flex-wrap:wrap;gap:6px;}
+.toc-item{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:5px 12px;border:1px solid var(--border);border-radius:2px;background:var(--s2);}
+.toc-num{color:var(--blue);margin-right:5px;}
+
+/* WRAP */
+.wrap{max-width:1420px;margin:0 auto;padding:0 56px 120px;}
+@media(max-width:720px){.wrap{padding:0 18px 80px;}.hero{padding:48px 20px 40px;}.toc{padding:12px 18px;}}
+
+/* SECTION */
+.sec{padding-top:80px;}
+.sec-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+.sec-title{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px;}
+.sec-title .hl{color:var(--blue);}
+.sec-desc{font-size:13.5px;color:var(--dim);margin-bottom:28px;max-width:740px;}
+hr.sdiv{border:none;border-top:1px solid var(--border);margin:32px 0;}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+@media(max-width:1200px){.g4{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:900px){.g3,.g4{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+
+/* ROLE CARD */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:5px;overflow:hidden;display:flex;flex-direction:column;}
+.card-top-bar{height:2px;}
+.card-body{padding:18px 20px;flex:1;display:flex;flex-direction:column;gap:10px;}
+.card-foot{padding:10px 20px;background:var(--s2);border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);}
+.card-foot b{color:var(--dim);}
+.card-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;margin-bottom:2px;}
+.card-role{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1px;margin-bottom:8px;}
+.card-arch{font-size:11.5px;font-style:italic;color:var(--amber);margin-bottom:8px;}
+.card-desc{font-size:12.5px;color:var(--dim);}
+.krow{display:flex;gap:8px;font-size:12px;}
+.kkey{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);min-width:52px;flex-shrink:0;padding-top:1px;}
+.kval{color:var(--dim);}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border-radius:2px;border:1px solid;}
+.opt-badge{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:8px;padding:1px 5px;border-radius:2px;background:var(--s2);color:var(--muted);border:1px solid var(--border);margin-left:6px;vertical-align:middle;}
+
+/* GROUP HDR */
+.grp-hd{display:flex;align-items:center;gap:10px;margin:28px 0 14px;}
+.grp-label{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:2px;color:var(--muted);white-space:nowrap;padding:3px 10px;background:var(--s2);border:1px solid var(--border);border-radius:2px;}
+.grp-line{flex:1;height:1px;background:var(--border);}
+
+/* AGENT ECOSYSTEM */
+.orch-card{
+  background:linear-gradient(135deg,#0d1420,#0a0f1a);
+  border:1px solid #818cf840;border-radius:8px;overflow:hidden;margin-bottom:14px;
+}
+.orch-head{
+  background:linear-gradient(135deg,#818cf818,#818cf805);
+  border-bottom:1px solid #818cf820;
+  padding:20px 24px;
+  display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;
+}
+.orch-icon{font-size:26px;width:52px;height:52px;background:#818cf812;border:1px solid #818cf825;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.orch-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:#6366f1;margin-bottom:3px;}
+.orch-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#e0e7ff;}
+.orch-sub{font-size:11.5px;color:#4f46e5;font-style:italic;margin-top:2px;}
+.orch-tag{font-family:'IBM Plex Mono',monospace;font-size:8.5px;padding:4px 10px;border-radius:2px;background:#818cf818;color:var(--indigo);border:1px solid #818cf835;align-self:flex-start;}
+.orch-tools{padding:14px 24px 16px;background:#818cf808;border-bottom:1px solid #818cf818;}
+.orch-tool-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:#6366f1;margin-bottom:8px;}
+.orch-tool-row{display:flex;flex-wrap:wrap;gap:6px;}
+.orch-tool{font-family:'IBM Plex Mono',monospace;font-size:9.5px;padding:3px 9px;border-radius:2px;background:#818cf812;border:1px solid #818cf830;color:#a5b4fc;}
+
+.subagents-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 20px;}
+@media(max-width:900px){.subagents-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.subagents-grid{grid-template-columns:1fr;}}
+.sub-card{background:var(--s2);border:1px solid var(--border);border-radius:5px;padding:14px 16px;}
+.sub-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.sub-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sub-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;}
+.sub-role{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:1px;color:var(--muted);margin-bottom:7px;}
+.sub-item{display:flex;gap:6px;font-size:11.5px;color:var(--dim);margin-bottom:3px;}
+.sub-item::before{content:'·';color:var(--muted);flex-shrink:0;}
+.sub-trigger{font-family:'IBM Plex Mono',monospace;font-size:8.5px;padding:2px 7px;border-radius:2px;background:var(--s3);border:1px solid var(--border2);color:var(--muted);margin-top:7px;display:inline-block;}
+
+/* TEAM ASSISTANTS */
+.team-asst-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+@media(max-width:1200px){.team-asst-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:850px){.team-asst-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.team-asst-grid{grid-template-columns:1fr;}}
+.ta-card{background:var(--s1);border:1px solid var(--border);border-radius:5px;overflow:hidden;}
+.ta-bar{height:2px;}
+.ta-body{padding:14px 16px;}
+.ta-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:1.5px;color:var(--muted);margin-bottom:4px;}
+.ta-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:3px;}
+.ta-persona{font-size:11px;font-style:italic;color:var(--amber);margin-bottom:9px;}
+.ta-item{display:flex;gap:6px;font-size:11.5px;color:var(--dim);margin-bottom:3px;}
+.ta-item::before{content:'→';color:var(--muted);flex-shrink:0;}
+.ta-kpi{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:6px 10px;background:var(--s2);border-top:1px solid var(--border);color:var(--muted);margin-top:8px;border-radius:0 0 3px 3px;}
+
+/* PROCESS */
+.flow-wrap{background:var(--s1);border:1px solid var(--border);border-radius:5px;overflow:hidden;}
+.flow-row{display:grid;grid-template-columns:140px 1fr;border-bottom:1px solid var(--border);}
+.flow-row:last-child{border-bottom:none;}
+.fl{padding:14px 16px;background:var(--s2);border-right:1px solid var(--border);}
+.fl-n{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:4px;}
+.fl-t{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;}
+.fr{padding:13px 18px;display:flex;flex-direction:column;gap:7px;}
+.lane{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;}
+.who{font-family:'IBM Plex Mono',monospace;font-size:8.5px;padding:2px 7px;border-radius:2px;border:1px solid;white-space:nowrap;flex-shrink:0;}
+.act{font-size:12px;color:var(--dim);}
+.ext{font-family:'IBM Plex Mono',monospace;font-size:8.5px;padding:2px 7px;border-radius:2px;background:var(--s3);border:1px dashed var(--border2);color:var(--muted);white-space:nowrap;}
+.gate{background:#1a1600;border-top:1px solid #f59e0b25;border-bottom:1px solid #f59e0b25;padding:10px 18px;display:flex;gap:8px;align-items:center;font-size:12px;color:#d97706;}
+.wl{background:#a78bfa12;color:var(--purple);border-color:#a78bfa30;}
+.wa{background:#38bdf812;color:#38bdf8;border-color:#38bdf830;}
+.we{background:#10b98112;color:var(--green);border-color:#10b98130;}
+.wb{background:#fb923c12;color:#fb923c;border-color:#fb923c30;}
+.ws{background:#22d3ee12;color:#22d3ee;border-color:#22d3ee30;}
+.wq{background:#c084fc12;color:#c084fc;border-color:#c084fc30;}
+.wev{background:#f472b612;color:var(--pink);border-color:#f472b630;}
+.wo{background:#4ade8012;color:#4ade80;border-color:#4ade8030;}
+.wag{background:#818cf812;color:var(--indigo);border-color:#818cf830;}
+
+/* RACI */
+.raci-wrap{background:var(--s1);border:1px solid var(--border);border-radius:5px;overflow:hidden;}
+.raci-scroll{overflow-x:auto;}
+table.rt{width:100%;border-collapse:collapse;min-width:860px;}
+table.rt th{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;padding:10px 12px;text-align:left;color:var(--muted);border-bottom:2px solid var(--border2);border-right:1px solid var(--border);background:var(--s2);white-space:nowrap;}
+table.rt th:last-child{border-right:none;}
+table.rt td{padding:8px 12px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);font-size:11.5px;color:var(--dim);}
+table.rt td:last-child{border-right:none;}
+table.rt td:first-child{font-size:12px;color:var(--text);font-weight:500;}
+table.rt tr:last-child td{border-bottom:none;}
+table.rt tr:hover td{background:var(--s2);}
+.R{color:#f87171!important;font-weight:700;font-family:'IBM Plex Mono',monospace;font-size:10px;}
+.A{color:var(--amber)!important;font-weight:700;font-family:'IBM Plex Mono',monospace;font-size:10px;}
+.C{color:var(--green)!important;font-family:'IBM Plex Mono',monospace;font-size:10px;}
+.I{color:var(--muted)!important;font-family:'IBM Plex Mono',monospace;font-size:10px;}
+.raci-leg{padding:8px 14px;background:var(--s2);border-top:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap;}
+
+/* TOOLS */
+.tool-card{background:var(--s1);border:1px solid var(--border);border-radius:5px;padding:18px 20px;}
+.tool-title{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;margin-bottom:4px;}
+.tool-role{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;margin-bottom:10px;}
+.tool-desc{font-size:12px;color:var(--dim);margin-bottom:10px;}
+
+/* CAPABILITY */
+.cap-table{width:100%;border-collapse:collapse;}
+.cap-table th,.cap-table td{padding:10px 14px;text-align:left;border:1px solid var(--border);font-size:12px;}
+.cap-table th{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);background:var(--s2);font-weight:500;}
+.cap-table tr:hover td{background:var(--s2);}
+.lv{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;padding:2px 8px;border-radius:2px;font-weight:500;}
+.lv1{background:#5a607022;color:var(--muted);}
+.lv2{background:#00d4ff18;color:var(--blue);}
+.lv3{background:#10b98118;color:var(--green);}
+.lv4{background:#f59e0b18;color:var(--amber);}
+.lv5{background:#7c3aed18;color:var(--purple);}
+
+/* CULTURE */
+.cult-card{background:var(--s1);border:1px solid var(--border);border-radius:5px;padding:18px 20px;}
+.cult-icon{font-size:22px;margin-bottom:8px;}
+.cult-name{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;margin-bottom:6px;}
+.cult-desc{font-size:12px;color:var(--dim);}
+
+/* OKR */
+.okr-block{margin-bottom:12px;}
+.okr-head{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;background:var(--s1);border:1px solid var(--border);border-radius:5px 5px 0 0;cursor:pointer;user-select:none;}
+.okr-head.collapsed{border-radius:5px;}
+.okr-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;border-radius:2px;white-space:nowrap;flex-shrink:0;margin-top:2px;font-weight:500;}
+.okr-obj{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;line-height:1.3;}
+.okr-chev{margin-left:auto;font-size:12px;color:var(--muted);flex-shrink:0;margin-top:2px;transition:transform .2s;}
+.collapsed .okr-chev{transform:rotate(-90deg);}
+.krs{display:flex;flex-direction:column;gap:0;}
+.krs.hidden{display:none;}
+.kr{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start;padding:9px 14px;background:var(--s1);border:1px solid var(--border);border-top:none;border-radius:0;}
+.kr:last-child{border-radius:0 0 5px 5px;}
+.kr-left{display:flex;flex-direction:column;gap:3px;}
+.kr-text{font-size:12px;color:var(--dim);}
+.kr-owner{font-size:11px;color:var(--muted);}
+.kr-target{font-family:'IBM Plex Mono',monospace;font-size:10px;white-space:nowrap;padding-top:1px;font-weight:500;}
+.kr-type{font-family:'IBM Plex Mono',monospace;font-size:8px;padding:1px 5px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle;}
+.qt{background:#00d4ff10;color:var(--blue);border:1px solid #00d4ff25;}
+.bin{background:#10b98110;color:var(--green);border:1px solid #10b98125;}
+.tag-sm{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9px;padding:1px 5px;border-radius:2px;background:var(--s2);border:1px solid var(--border);color:var(--muted);margin-right:3px;vertical-align:middle;}
+.tag-del{background:#0369a118;color:#38bdf8;border:1px solid #0369a130;}
+.tag-aug{background:#f59e0b15;color:var(--amber);border:1px solid #f59e0b30;}
+.tag-com{background:#10b98115;color:var(--green);border:1px solid #10b98130;}
+.tag-gov{background:#7c3aed15;color:var(--purple);border:1px solid #7c3aed30;}
+.tag-plt{background:#14b8a615;color:var(--teal);border:1px solid #14b8a630;}
+.tag-qual{background:#ef444415;color:var(--red);border:1px solid #ef444430;}
+.tag-res{background:#f472b615;color:var(--pink);border:1px solid #f472b630;}
+.tag-ai{background:#818cf815;color:var(--indigo);border:1px solid #818cf830;}
+
+/* GOV */
+.gov-card{background:var(--s1);border:1px solid var(--border);border-radius:5px;overflow:hidden;}
+.gov-row{display:grid;grid-template-columns:190px 1fr;gap:12px;padding:12px 18px;border-bottom:1px solid var(--border);align-items:start;}
+.gov-row:last-child{border-bottom:none;}
+.gov-key{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--blue);padding-top:1px;}
+.gov-val{font-size:12px;color:var(--dim);}
+
+/* NOTE */
+.note{background:var(--s2);border:1px solid var(--border);border-radius:4px;padding:12px 16px;font-size:12px;color:var(--dim);margin-top:10px;}
+.note .hl{color:var(--text);font-weight:600;}
+.note-amber{border-color:#f59e0b30;background:#1a1200;}
+.note-blue{border-color:#00d4ff25;background:#001820;}
+.note-green{border-color:#10b98125;background:#001810;}
+.note-indigo{border-color:#818cf825;background:#0d0f1a;}
+
+/* ALSO */
+.also-card{background:var(--s1);border:1px solid var(--border);border-radius:5px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;}
+.also-icon{font-size:20px;flex-shrink:0;}
+.also-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:4px;}
+.also-desc{font-size:12px;color:var(--dim);}
+
+/* KPI LEGEND */
+.kpi-legend{display:flex;gap:14px;flex-wrap:wrap;padding:10px 14px;background:var(--s2);border:1px solid var(--border);border-radius:4px;margin-bottom:14px;}
+.kl{display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--dim);}
+
+/* FOOTER */
+.footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-t{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);letter-spacing:1px;}
+
+.pioneer-banner{
+  background:linear-gradient(135deg,#0d1420,#120d20);
+  border:1px solid #818cf840;border-radius:6px;
+  padding:20px 24px;margin-bottom:28px;
+  display:flex;gap:16px;align-items:flex-start;
+}
+.pb-icon{font-size:24px;flex-shrink:0;}
+.pb-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#e0e7ff;margin-bottom:5px;}
+.pb-desc{font-size:12px;color:#6366f1;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">// Enterprise AI · COE · Full Playbook · v4.0</div>
+  <h1>AI <span>A-Team</span><br>Squad Playbook</h1>
+  <p class="hero-desc">Complete operating model for an enterprise AI Center of Excellence — built for a banking context where AI is new to most, but trusted at the top. People, process, tools, capability, culture, KPIs, governance, and a full internal agent ecosystem that runs the squad, so the squad can run the org.</p>
+  <div class="hero-chips">
+    <span class="chip cb">BANKING · AI COE</span>
+    <span class="chip cp">ENTERPRISE SCALE</span>
+    <span class="chip cg">10 ROLES + AGENT ECOSYSTEM</span>
+    <span class="chip ca">RAI COMPLIANT</span>
+    <span class="chip cr">GOVERNANCE FIRST</span>
+    <span class="chip ci">AI-FIRST PIONEER</span>
+  </div>
+</div>
+
+<div class="toc">
+  <span class="toc-item"><span class="toc-num">01</span>People &amp; RACI</span>
+  <span class="toc-item"><span class="toc-num">02</span>Agent Ecosystem</span>
+  <span class="toc-item"><span class="toc-num">03</span>Process</span>
+  <span class="toc-item"><span class="toc-num">04</span>Tools</span>
+  <span class="toc-item"><span class="toc-num">05</span>Capability</span>
+  <span class="toc-item"><span class="toc-num">06</span>Culture</span>
+  <span class="toc-item"><span class="toc-num">07</span>OKR / KPI</span>
+  <span class="toc-item"><span class="toc-num">08</span>Governance</span>
+  <span class="toc-item"><span class="toc-num">09</span>More</span>
+</div>
+
+<div class="wrap">
+
+<!-- ════════════════════════════
+     01 · PEOPLE & RACI
+════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">01 · People</div>
+  <div class="sec-title">Roles, Characters <span class="hl">&amp; Responsibilities</span></div>
+  <div class="sec-desc">8 core roles + 3 optional. Every role has a character archetype — hire for that, not just the CV. Lean start = 7 pax (Tech Lead / Architect may overlap early).</div>
+
+  <div class="grp-hd"><span class="grp-label">CORE — ALWAYS PRESENT</span><div class="grp-line"></div></div>
+  <div class="g4">
+    <div class="card"><div class="card-top-bar" style="background:var(--purple)"></div><div class="card-body"><div><div class="card-role" style="color:var(--purple)">R-01 · TECH LEAD</div><div class="card-title">Tech Lead</div><div class="card-arch">"The Force Multiplier"</div></div><div class="card-desc">Owns technical direction of the squad. Unblocks engineers, makes daily tech calls, drives code quality, mentors team.</div><div class="krow"><span class="kkey">OWNS</span><span class="kval">Code quality, sprint-level arch, mentoring, unblocking</span></div><div class="krow"><span class="kkey">≠ ARCH</span><span class="kval">Less long-horizon design; more "right call today"</span></div><div class="tags"><span class="tag" style="color:var(--purple);border-color:#a78bfa30;">Code Review</span><span class="tag" style="color:var(--purple);border-color:#a78bfa30;">Mentoring</span><span class="tag" style="color:var(--purple);border-color:#a78bfa30;">Tech Decisions</span></div></div><div class="card-foot"><b>Count:</b> 1 · may overlap w/ Sr. AI Eng early on</div></div>
+    <div class="card"><div class="card-top-bar" style="background:#38bdf8"></div><div class="card-body"><div><div class="card-role" style="color:#38bdf8">R-02 · ARCHITECT</div><div class="card-title">AI / Solution Architect</div><div class="card-arch">"The Blueprint Master"</div></div><div class="card-desc">Designs systems that survive contact with reality. Owns enterprise-wide AI solution patterns, EA committee chair for AI.</div><div class="krow"><span class="kkey">OWNS</span><span class="kval">ADRs, reference arch, platform design, EA governance</span></div><div class="krow"><span class="kkey">≠ LEAD</span><span class="kval">Thinks 6–18 months ahead, less sprint-level</span></div><div class="tags"><span class="tag" style="color:#38bdf8;border-color:#38bdf830;">ADR</span><span class="tag" style="color:#38bdf8;border-color:#38bdf830;">EA Committee</span><span class="tag" style="color:#38bdf8;border-color:#38bdf830;">Platform Design</span></div></div><div class="card-foot"><b>Count:</b> 1 · can be part-time from platform team</div></div>
+    <div class="card"><div class="card-top-bar" style="background:var(--green)"></div><div class="card-body"><div><div class="card-role" style="color:var(--green)">R-03 · AI ENGINEER</div><div class="card-title">AI Engineer</div><div class="card-arch">"The Maker"</div></div><div class="card-desc">Builds AI solutions end-to-end — LLM pipelines, agents, RAG, guardrails, APIs. Builds both product solutions and internal agents. Primary delivery engine.</div><div class="krow"><span class="kkey">OWNS</span><span class="kval">Feature delivery, Agent Fabric integration, agent development</span></div><div class="tags"><span class="tag" style="color:var(--green);border-color:#10b98130;">Python</span><span class="tag" style="color:var(--green);border-color:#10b98130;">LLM</span><span class="tag" style="color:var(--green);border-color:#10b98130;">RAG</span><span class="tag" style="color:var(--green);border-color:#10b98130;">Agents</span><span class="tag" style="color:var(--green);border-color:#10b98130;">FastAPI</span></div></div><div class="card-foot"><b>Count:</b> 2–4 · scale with solution pipeline</div></div>
+    <div class="card"><div class="card-top-bar" style="background:#fb923c"></div><div class="card-body"><div><div class="card-role" style="color:#fb923c">R-04 · TECH BA</div><div class="card-title">Technical Business Analyst</div><div class="card-arch">"The Decoder"</div></div><div class="card-desc">Translates BU "we want AI" into buildable specs. Primary interface with Biz BA / BPO. Critical given AI-naive BU.</div><div class="krow"><span class="kkey">OWNS</span><span class="kval">Intake, problem framing, user stories, acceptance criteria</span></div><div class="tags"><span class="tag" style="color:#fb923c;border-color:#fb923c30;">Discovery</span><span class="tag" style="color:#fb923c;border-color:#fb923c30;">AI Canvas</span><span class="tag" style="color:#fb923c;border-color:#fb923c30;">BRD</span></div></div><div class="card-foot"><b>Count:</b> 1–2 · highest-leverage hire for BU work</div></div>
+    <div class="card"><div class="card-top-bar" style="background:#22d3ee"></div><div class="card-body"><div><div class="card-role" style="color:#22d3ee">R-05 · SYSTEM ANALYST</div><div class="card-title">System Analyst</div><div class="card-arch">"The Cartographer"</div></div><div class="card-desc">Owns technical translation — API contracts, data flow, integration specs, sequence diagrams. The glue between requirement and implementation.</div><div class="krow"><span class="kkey">OWNS</span><span class="kval">System design docs, API contracts, integration maps, ERDs</span></div><div class="tags"><span class="tag" style="color:#22d3ee;border-color:#22d3ee30;">API Design</span><span class="tag" style="color:#22d3ee;border-color:#22d3ee30;">Seq Diagram</span><span class="tag" style="color:#22d3ee;border-color:#22d3ee30;">Data Flow</span></div></div><div class="card-foot"><b>Count:</b> 1</div></div>
+    <div class="card"><div class="card-top-bar" style="background:#c084fc"></div><div class="card-body"><div><div class="card-role" style="color:#c084fc">R-06 · QA ENGINEER</div><div class="card-title">Quality Assurance</div><div class="card-arch">"The Gatekeeper" — software correctness</div></div><div class="card-desc">Tests software functionality — NOT AI output quality (that's Eval Eng). Does the system work? Partners with Eval Eng but owns separate scope.</div><div class="krow"><span class="kkey">≠ EVAL</span><span class="kval">QA: does it work? / Eval: is the AI good?</span></div><div class="tags"><span class="tag" style="color:#c084fc;border-color:#c084fc30;">Functional Test</span><span class="tag" style="color:#c084fc;border-color:#c084fc30;">Regression</span><span class="tag" style="color:#c084fc;border-color:#c084fc30;">Bug Triage</span></div></div><div class="card-foot"><b>Count:</b> 1 · coordinates handover to UAT team</div></div>
+    <div class="card"><div class="card-top-bar" style="background:var(--pink)"></div><div class="card-body"><div><div class="card-role" style="color:var(--pink)">R-07 · EVAL ENGINEER</div><div class="card-title">Evaluation Engineer (AI)</div><div class="card-arch">"The Skeptic" — is the AI good?</div></div><div class="card-desc">Owns AI output quality — accuracy, safety, fairness, groundedness. Designs eval datasets, runs LLM-as-judge, red-teams. Tracks quality KPIs. Also absorbs RAI governance if no Gov Officer.</div><div class="tags"><span class="tag" style="color:var(--pink);border-color:#f472b630;">LLM Eval</span><span class="tag" style="color:var(--pink);border-color:#f472b630;">Red Team</span><span class="tag" style="color:var(--pink);border-color:#f472b630;">Promptfoo</span><span class="tag" style="color:var(--pink);border-color:#f472b630;">RAI</span></div></div><div class="card-foot"><b>Count:</b> 1</div></div>
+    <div class="card"><div class="card-top-bar" style="background:#4ade80"></div><div class="card-body"><div><div class="card-role" style="color:#4ade80">R-08 · AI OPS</div><div class="card-title">AI Ops Engineer</div><div class="card-arch">"The Backbone"</div></div><div class="card-desc">Owns operational health of the AI platform — deployment, monitoring, observability, cost, incident response. Keeps Agent Fabric + LLM gateway alive. Accountable for the internal agent ecosystem's behavior.</div><div class="tags"><span class="tag" style="color:#4ade80;border-color:#4ade8030;">EKS</span><span class="tag" style="color:#4ade80;border-color:#4ade8030;">Kafka</span><span class="tag" style="color:#4ade80;border-color:#4ade8030;">Helm</span><span class="tag" style="color:#4ade80;border-color:#4ade8030;">Langfuse</span></div></div><div class="card-foot"><b>Count:</b> 1–2</div></div>
+  </div>
+
+  <div class="grp-hd"><span class="grp-label">OPTIONAL — ADD AS YOU SCALE</span><div class="grp-line"></div></div>
+  <div class="g3">
+    <div class="card" style="border-style:dashed;border-color:var(--border2);"><div class="card-top-bar" style="background:#94a3b8"></div><div class="card-body"><div><div class="card-role" style="color:#94a3b8">R-09 · OPTIONAL</div><div class="card-title">Technical Product Owner <span class="opt-badge">OPTIONAL</span></div><div class="card-arch">"The Compass"</div></div><div class="card-desc">Owns product roadmap from the technical side. Add when running 3+ parallel solutions. Until then: Tech BA + Tech Lead absorbs.</div><div class="tags"><span class="tag" style="color:#94a3b8;border-color:#94a3b830;">Backlog</span><span class="tag" style="color:#94a3b8;border-color:#94a3b830;">Roadmap</span><span class="tag" style="color:#94a3b8;border-color:#94a3b830;">Release</span></div></div><div class="card-foot"><b>Count:</b> 1 · optional until pipeline demands it</div></div>
+    <div class="card" style="border-style:dashed;border-color:var(--border2);"><div class="card-top-bar" style="background:var(--amber)"></div><div class="card-body"><div><div class="card-role" style="color:var(--amber)">R-10 · OPTIONAL</div><div class="card-title">AI Governance Officer <span class="opt-badge">OPTIONAL</span></div><div class="card-arch">"The Guardian"</div></div><div class="card-desc">Owns Responsible AI policy, compliance (PDPA, BOT), risk assessment, model auditing. Add when 5+ solutions in prod or BOT engagement begins. Eval Eng + AI Lead hold interim.</div><div class="tags"><span class="tag" style="color:var(--amber);border-color:#f59e0b30;">RAI</span><span class="tag" style="color:var(--amber);border-color:#f59e0b30;">PDPA</span><span class="tag" style="color:var(--amber);border-color:#f59e0b30;">Risk Register</span></div></div><div class="card-foot"><b>Count:</b> 1 · can share w/ Risk team</div></div>
+    <div class="card" style="border-style:dashed;border-color:var(--border2);"><div class="card-top-bar" style="background:#e879f9"></div><div class="card-body"><div><div class="card-role" style="color:#e879f9">R-11 · OPTIONAL</div><div class="card-title">AI Enablement Lead <span class="opt-badge">OPTIONAL</span></div><div class="card-arch">"The Spark Plug"</div></div><div class="card-desc">Builds AI literacy across the org. Runs AI community, workshops, champion programs, knowledge base. Add when community demand exceeds 20% of Tech BA's time.</div><div class="tags"><span class="tag" style="color:#e879f9;border-color:#e879f930;">Community</span><span class="tag" style="color:#e879f9;border-color:#e879f930;">Champions</span><span class="tag" style="color:#e879f9;border-color:#e879f930;">Training</span></div></div><div class="card-foot"><b>Count:</b> 1 · can double-hat early on</div></div>
+  </div>
+
+  <hr class="sdiv" style="margin-top:40px;">
+
+  <div style="margin-top:32px;">
+    <div class="sec-eyebrow" style="margin-bottom:8px;">01b · RACI</div>
+    <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:14px;letter-spacing:-0.3px;">Responsibility Assignment Matrix</div>
+    <div class="raci-wrap">
+      <div class="raci-scroll">
+        <table class="rt">
+          <thead><tr><th style="min-width:175px;">ACTIVITY</th><th>Tech Lead</th><th>Architect</th><th>AI Eng</th><th>Tech BA</th><th>Sys Analyst</th><th>QA</th><th>Eval Eng</th><th>AI Ops</th><th>Gov Off (opt)</th></tr></thead>
+          <tbody>
+            <tr><td>Requirement Intake</td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="R">R/A</td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="I">I</td><td class="I">I</td></tr>
+            <tr><td>Solution Architecture</td><td class="C">C</td><td class="R">R/A</td><td class="C">C</td><td class="I">I</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="I">I</td></tr>
+            <tr><td>Technical Design (AI)</td><td class="A">A</td><td class="C">C</td><td class="R">R</td><td class="I">I</td><td class="C">C</td><td class="I">I</td><td class="C">C</td><td class="C">C</td><td class="I">I</td></tr>
+            <tr><td>System / Integration Spec</td><td class="C">C</td><td class="C">C</td><td class="C">C</td><td class="C">C</td><td class="R">R/A</td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="I">I</td></tr>
+            <tr><td>RAI / Gov Gate Review</td><td class="C">C</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="R">R</td><td class="I">I</td><td class="A">A</td></tr>
+            <tr><td>Eval Dataset &amp; Criteria</td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="R">R/A</td><td class="I">I</td><td class="C">C</td></tr>
+            <tr><td>Functional Test Plan</td><td class="C">C</td><td class="I">I</td><td class="C">C</td><td class="C">C</td><td class="C">C</td><td class="R">R/A</td><td class="I">I</td><td class="I">I</td><td class="I">I</td></tr>
+            <tr><td>Feature Build</td><td class="A">A</td><td class="C">C</td><td class="R">R</td><td class="I">I</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="I">I</td></tr>
+            <tr><td>Code Review</td><td class="R">R/A</td><td class="C">C</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td></tr>
+            <tr><td>Functional QA Testing</td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="R">R/A</td><td class="I">I</td><td class="I">I</td><td class="I">I</td></tr>
+            <tr><td>AI Eval / Red Team</td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="R">R/A</td><td class="I">I</td><td class="C">C</td></tr>
+            <tr><td>UAT Coordination</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="R">R/A</td><td class="I">I</td><td class="C">C</td><td class="C">C</td><td class="I">I</td><td class="I">I</td></tr>
+            <tr><td>Production Deployment</td><td class="C">C</td><td class="I">I</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="R">R/A</td><td class="I">I</td></tr>
+            <tr><td>Platform Monitoring</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="R">R/A</td><td class="I">I</td></tr>
+            <tr><td>Prod AI Eval &amp; Drift</td><td class="I">I</td><td class="I">I</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="R">R/A</td><td class="C">C</td><td class="I">I</td></tr>
+            <tr><td>AI Policy &amp; RAI Framework</td><td class="I">I</td><td class="C">C</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="R">R</td><td class="I">I</td><td class="A">A</td></tr>
+            <tr><td>Internal Agent Development</td><td class="A">A</td><td class="C">C</td><td class="R">R</td><td class="C">C</td><td class="C">C</td><td class="I">I</td><td class="C">C</td><td class="C">C</td><td class="I">I</td></tr>
+            <tr><td>BU Feedback Loop</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="R">R/A</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="I">I</td></tr>
+            <tr><td>Research &amp; Benchmarking</td><td class="A">A</td><td class="C">C</td><td class="R">R</td><td class="I">I</td><td class="I">I</td><td class="I">I</td><td class="R">R</td><td class="C">C</td><td class="I">I</td></tr>
+            <tr><td>KS Sessions &amp; Community</td><td class="C">C</td><td class="C">C</td><td class="R">R</td><td class="R">R</td><td class="R">R</td><td class="R">R</td><td class="R">R</td><td class="R">R</td><td class="I">I</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="raci-leg">
+        <span style="color:#f87171;">R = Responsible</span>
+        <span style="color:var(--amber);">A = Accountable</span>
+        <span style="color:var(--green);">C = Consulted</span>
+        <span>I = Informed</span>
+        <span style="color:var(--muted);">R/A = same person responsible and accountable (lean team)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════
+     02 · AGENT ECOSYSTEM
+════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">02 · Agent Ecosystem</div>
+  <div class="sec-title">Internal <span class="hl">Agent Platform</span></div>
+  <div class="sec-desc">The squad builds and runs its own internal agent ecosystem on Agent Fabric. One orchestrator receives requests and delegates to specialized subagents. Every team gets their own private assistant scoped to their role. This is our most visible proof that AI-first actually means something.</div>
+
+  <div class="pioneer-banner">
+    <div class="pb-icon">🏆</div>
+    <div>
+      <div class="pb-title">The Prime Example</div>
+      <div class="pb-desc">An AI team that operates entirely on its own AI platform — with agents handling ops, research, delivery tracking, and knowledge — is the most credible proof of AI maturity in any organization. We don't just build AI for BU. We run on AI ourselves. That's what makes us the pioneer and the benchmark.</div>
+    </div>
+  </div>
+
+  <!-- ORCHESTRATOR -->
+  <div class="orch-card">
+    <div class="orch-head">
+      <div class="orch-icon">🧠</div>
+      <div>
+        <div class="orch-eyebrow">MASTER AGENT · BUILT ON AGENT FABRIC · A2A PROTOCOL</div>
+        <div class="orch-name">AI Squad Orchestrator</div>
+        <div class="orch-sub">"The Dispatcher" — receives, decides, and delegates to the right subagent</div>
+      </div>
+      <div class="orch-tag">ORCHESTRATOR LAYER</div>
+    </div>
+    <div class="orch-tools">
+      <div class="orch-tool-label">CAPABILITIES</div>
+      <div class="orch-tool-row">
+        <span class="orch-tool">Intent classification</span>
+        <span class="orch-tool">Context routing</span>
+        <span class="orch-tool">Multi-agent delegation (A2A)</span>
+        <span class="orch-tool">Session memory (Redis)</span>
+        <span class="orch-tool">Tool use chain</span>
+        <span class="orch-tool">Fallback to human escalation</span>
+        <span class="orch-tool">Full trace (Langfuse)</span>
+        <span class="orch-tool">Guardrail checked on all I/O</span>
+      </div>
+    </div>
+    <div style="padding:12px 20px 4px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);">SUBAGENTS MANAGED</div>
+    <div class="subagents-grid">
+
+      <div class="sub-card">
+        <div class="sub-head"><div class="sub-dot" style="background:#4ade80;"></div><div class="sub-name">Platform Ops Agent</div></div>
+        <div class="sub-role">OPS AUTOMATION</div>
+        <div class="sub-item">Create / rotate / revoke API keys</div>
+        <div class="sub-item">Platform health check on-demand</div>
+        <div class="sub-item">Cost report by team / model / period</div>
+        <div class="sub-item">Langfuse trace lookup and summary</div>
+        <div class="sub-item">Auto deployment notice to channels</div>
+        <div class="sub-item">Quota threshold alert</div>
+        <span class="sub-trigger">trigger: ops request</span>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-head"><div class="sub-dot" style="background:#38bdf8;"></div><div class="sub-name">Knowledge Agent</div></div>
+        <div class="sub-role">RAG · INTERNAL DOCS</div>
+        <div class="sub-item">RAG over Confluence, Notion, ADRs</div>
+        <div class="sub-item">Step-by-step onboarding for new users</div>
+        <div class="sub-item">Explain policy / guardrail decisions</div>
+        <div class="sub-item">Retrieve runbooks on demand</div>
+        <div class="sub-item">Summarize a doc or meeting notes</div>
+        <div class="sub-item">Cross-link related docs automatically</div>
+        <span class="sub-trigger">trigger: "how do I…" / "what is…"</span>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-head"><div class="sub-dot" style="background:var(--pink);"></div><div class="sub-name">Eval &amp; Quality Agent</div></div>
+        <div class="sub-role">AI QUALITY AUTOMATION</div>
+        <div class="sub-item">Trigger eval run on a given solution</div>
+        <div class="sub-item">Pull weekly quality scorecard</div>
+        <div class="sub-item">Flag solutions with quality regression</div>
+        <div class="sub-item">Auto-generate eval dataset samples</div>
+        <div class="sub-item">Suggest red-team scenarios</div>
+        <div class="sub-item">Summarize RAI checklist status</div>
+        <span class="sub-trigger">trigger: eval eng / release gate</span>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-head"><div class="sub-dot" style="background:var(--red);"></div><div class="sub-name">Incident Agent</div></div>
+        <div class="sub-role">INCIDENT RESPONSE</div>
+        <div class="sub-item">Detect anomaly from Grafana / OTel</div>
+        <div class="sub-item">Classify severity (P1 / P2 / P3)</div>
+        <div class="sub-item">Retrieve relevant runbook</div>
+        <div class="sub-item">Notify right owner via Slack/Teams</div>
+        <div class="sub-item">Log incident, start RCA template</div>
+        <div class="sub-item">Track time-to-resolution SLA</div>
+        <span class="sub-trigger">trigger: alert / anomaly event</span>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-head"><div class="sub-dot" style="background:var(--amber);"></div><div class="sub-name">Intake Agent</div></div>
+        <div class="sub-role">BU REQUEST INTAKE</div>
+        <div class="sub-item">Conversational intake form for BU</div>
+        <div class="sub-item">Classify request type and priority</div>
+        <div class="sub-item">Check for duplicate / similar past requests</div>
+        <div class="sub-item">Create Jira ticket with structured data</div>
+        <div class="sub-item">Route to correct Tech BA</div>
+        <div class="sub-item">Send confirmation + ETA to BU requester</div>
+        <span class="sub-trigger">trigger: BU request via chat</span>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-head"><div class="sub-dot" style="background:var(--purple);"></div><div class="sub-name">Delivery Agent</div></div>
+        <div class="sub-role">DELIVERY REPORTING</div>
+        <div class="sub-item">Auto weekly sprint status summary</div>
+        <div class="sub-item">Track KR progress from Jira data</div>
+        <div class="sub-item">Flag at-risk delivery items</div>
+        <div class="sub-item">Generate release note draft</div>
+        <div class="sub-item">Monthly OKR report to management</div>
+        <div class="sub-item">ROI calculation from Jira + BU metrics</div>
+        <span class="sub-trigger">trigger: scheduled / on-demand</span>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-head"><div class="sub-dot" style="background:var(--teal);"></div><div class="sub-name">Research Agent</div></div>
+        <div class="sub-role">RESEARCH &amp; BENCHMARKING</div>
+        <div class="sub-item">Scan arXiv / Hugging Face weekly</div>
+        <div class="sub-item">Summarize papers relevant to our stack</div>
+        <div class="sub-item">Benchmark new models vs. current</div>
+        <div class="sub-item">Track competitor AI announcements</div>
+        <div class="sub-item">Flag research with direct applicability</div>
+        <div class="sub-item">Generate weekly research digest</div>
+        <span class="sub-trigger">trigger: weekly schedule / on-demand</span>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-head"><div class="sub-dot" style="background:#fb923c;"></div><div class="sub-name">Cost Optimizer Agent</div></div>
+        <div class="sub-role">LLM COST MANAGEMENT</div>
+        <div class="sub-item">Track spend per solution / team / model</div>
+        <div class="sub-item">Flag solutions with cost anomaly</div>
+        <div class="sub-item">Suggest caching or model downgrade</div>
+        <div class="sub-item">Compare model cost vs. quality trade-off</div>
+        <div class="sub-item">Quarterly cost optimization report</div>
+        <div class="sub-item">Simulate cost for new project estimates</div>
+        <span class="sub-trigger">trigger: weekly / cost spike alert</span>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-head"><div class="sub-dot" style="background:#e879f9;"></div><div class="sub-name">Community Agent</div></div>
+        <div class="sub-role">COMMUNITY &amp; ENABLEMENT</div>
+        <div class="sub-item">Publish KS session summaries to wiki</div>
+        <div class="sub-item">Remind presenters of upcoming slots</div>
+        <div class="sub-item">Send community digest to AI channel</div>
+        <div class="sub-item">Track champion attendance rates</div>
+        <div class="sub-item">Auto-generate workshop recap posts</div>
+        <div class="sub-item">Suggest relevant docs to new members</div>
+        <span class="sub-trigger">trigger: event / scheduled</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="note note-indigo">⚙️ <span class="hl">Technical pattern:</span> All agents are tools registered on the Orchestrator. Each agent is a Python function wrapped with Agent Fabric's tool interface. The Orchestrator classifies user intent and calls the relevant agent(s) via A2A protocol. All I/O goes through the guardrail service. All traces logged to Langfuse. Redis holds session context. Human-in-the-loop is triggered on any write action above read-only scope.</div>
+
+  <!-- TEAM PRIVATE ASSISTANTS -->
+  <hr class="sdiv">
+  <div class="sec-eyebrow" style="margin-bottom:8px;">02b · Team Private Assistants</div>
+  <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:8px;letter-spacing:-0.3px;">Each Role Gets Their Own <span style="color:var(--blue);">Private AI Assistant</span></div>
+  <div style="font-size:13px;color:var(--dim);margin-bottom:18px;max-width:700px;">Scoped to their function, trained on their workflows, and measured by how much they use it. Not a generic chatbot — a role-specific productivity multiplier with memory of past interactions and access to relevant tools only.</div>
+
+  <div class="team-asst-grid">
+
+    <div class="ta-card">
+      <div class="ta-bar" style="background:var(--green);"></div>
+      <div class="ta-body">
+        <div class="ta-eyebrow">AI ENGINEER ASSISTANT</div>
+        <div class="ta-name">Code & Build Copilot</div>
+        <div class="ta-persona">"Pair programmer who knows the whole codebase"</div>
+        <div class="ta-item">Code review suggestions against our patterns</div>
+        <div class="ta-item">LangChain / Agent Fabric snippet lookup</div>
+        <div class="ta-item">PR description auto-draft</div>
+        <div class="ta-item">Explain guardrail errors in context</div>
+        <div class="ta-item">ADR draft from conversation</div>
+        <div class="ta-item">Tech debt log and prioritization</div>
+      </div>
+      <div class="ta-kpi">KPI: % of AI Eng daily tasks where assistant was used ≥ 80%</div>
+    </div>
+
+    <div class="ta-card">
+      <div class="ta-bar" style="background:#fb923c;"></div>
+      <div class="ta-body">
+        <div class="ta-eyebrow">TECH BA ASSISTANT</div>
+        <div class="ta-name">Requirements Accelerator</div>
+        <div class="ta-persona">"Structured scribe that never forgets context"</div>
+        <div class="ta-item">User story auto-draft from meeting notes</div>
+        <div class="ta-item">AI Problem Canvas generator</div>
+        <div class="ta-item">Acceptance criteria completeness check</div>
+        <div class="ta-item">Similar past use-case lookup (RAG)</div>
+        <div class="ta-item">Stakeholder communication draft</div>
+        <div class="ta-item">Intake form auto-fill from Slack thread</div>
+      </div>
+      <div class="ta-kpi">KPI: Requirement rework rate &lt; 10% · BA session notes published 100%</div>
+    </div>
+
+    <div class="ta-card">
+      <div class="ta-bar" style="background:#22d3ee;"></div>
+      <div class="ta-body">
+        <div class="ta-eyebrow">SYSTEM ANALYST ASSISTANT</div>
+        <div class="ta-name">Spec &amp; Design Companion</div>
+        <div class="ta-persona">"Technical writer who thinks in sequence diagrams"</div>
+        <div class="ta-item">API contract template generation</div>
+        <div class="ta-item">Sequence diagram description to mermaid</div>
+        <div class="ta-item">Integration gap analysis from spec</div>
+        <div class="ta-item">Data schema suggestion and validation</div>
+        <div class="ta-item">Existing system doc retrieval (RAG)</div>
+        <div class="ta-item">Change impact analysis</div>
+      </div>
+      <div class="ta-kpi">KPI: Spec completeness before sprint start 100% · integration surprises &lt; 2/Q</div>
+    </div>
+
+    <div class="ta-card">
+      <div class="ta-bar" style="background:#c084fc;"></div>
+      <div class="ta-body">
+        <div class="ta-eyebrow">QA ASSISTANT</div>
+        <div class="ta-name">Test Case Generator</div>
+        <div class="ta-persona">"The most thorough tester who never gets tired"</div>
+        <div class="ta-item">Test case generation from acceptance criteria</div>
+        <div class="ta-item">Edge case and negative test suggestion</div>
+        <div class="ta-item">Regression suite gap analysis</div>
+        <div class="ta-item">Bug report template auto-fill</div>
+        <div class="ta-item">UAT handover doc draft</div>
+        <div class="ta-item">Test coverage report generation</div>
+      </div>
+      <div class="ta-kpi">KPI: Test case AI-draft rate ≥ 70% · defect escape rate &lt; 5%</div>
+    </div>
+
+    <div class="ta-card">
+      <div class="ta-bar" style="background:var(--pink);"></div>
+      <div class="ta-body">
+        <div class="ta-eyebrow">EVAL ENGINEER ASSISTANT</div>
+        <div class="ta-name">Eval Dataset &amp; Rubric Builder</div>
+        <div class="ta-persona">"Adversarial thinker who generates failure scenarios on demand"</div>
+        <div class="ta-item">Eval dataset seed generation from use-case</div>
+        <div class="ta-item">Red-team prompt variation generator</div>
+        <div class="ta-item">RAI checklist completion status</div>
+        <div class="ta-item">Quality regression diff explainer</div>
+        <div class="ta-item">LLM-as-judge prompt builder</div>
+        <div class="ta-item">Eval report narrative auto-draft</div>
+      </div>
+      <div class="ta-kpi">KPI: Eval dataset size per solution ≥ 200 cases · red-team scenarios ≥ 20/release</div>
+    </div>
+
+    <div class="ta-card">
+      <div class="ta-bar" style="background:#4ade80;"></div>
+      <div class="ta-body">
+        <div class="ta-eyebrow">AI OPS ASSISTANT</div>
+        <div class="ta-name">Platform Command Center</div>
+        <div class="ta-persona">"The on-call engineer who already read the runbook"</div>
+        <div class="ta-item">Runbook retrieval for active incident</div>
+        <div class="ta-item">Incident timeline auto-documentation</div>
+        <div class="ta-item">Grafana alert interpretation</div>
+        <div class="ta-item">Helm / kubectl command suggestion</div>
+        <div class="ta-item">Post-incident RCA draft</div>
+        <div class="ta-item">Platform change log auto-summarize</div>
+      </div>
+      <div class="ta-kpi">KPI: MTTR ≤ 2hrs · runbook coverage 100%</div>
+    </div>
+
+    <div class="ta-card">
+      <div class="ta-bar" style="background:var(--amber);"></div>
+      <div class="ta-body">
+        <div class="ta-eyebrow">AI LEAD / ARCHITECT ASSISTANT</div>
+        <div class="ta-name">Strategy &amp; Architecture Advisor</div>
+        <div class="ta-persona">"The thinking partner who remembers every ADR"</div>
+        <div class="ta-item">ADR retrieval and precedent comparison</div>
+        <div class="ta-item">Architecture decision draft from discussion</div>
+        <div class="ta-item">OKR progress narrative auto-draft</div>
+        <div class="ta-item">Research paper digest to action items</div>
+        <div class="ta-item">Meeting brief and stakeholder summary</div>
+        <div class="ta-item">Governance policy gap analysis</div>
+      </div>
+      <div class="ta-kpi">KPI: ADR published per major decision ≥ 1 · OKR report published quarterly 1/0</div>
+    </div>
+
+    <div class="ta-card" style="border:1px dashed var(--border2);">
+      <div class="ta-bar" style="background:#e879f9;"></div>
+      <div class="ta-body">
+        <div class="ta-eyebrow">BU PRIVATE ASSISTANT (PER BU)</div>
+        <div class="ta-name">BU Domain Assistant</div>
+        <div class="ta-persona">"The AI-fluent colleague inside your BU"</div>
+        <div class="ta-item">Answer BU-domain-specific AI questions</div>
+        <div class="ta-item">Submit AI use-case request conversationally</div>
+        <div class="ta-item">Track status of their active AI projects</div>
+        <div class="ta-item">Explain how to interpret AI outputs safely</div>
+        <div class="ta-item">BU-specific knowledge base (RAG)</div>
+        <div class="ta-item">Raise issues / give feedback on deployed AI</div>
+      </div>
+      <div class="ta-kpi">KPI: BU assistant adoption ≥ 50% of BU staff · BU CSAT ≥ 4.0</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════
+     03 · PROCESS
+════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">03 · Process</div>
+  <div class="sec-title">AI Delivery <span class="hl">Lifecycle</span></div>
+  <div class="sec-desc">Sprint-based delivery with two mandatory governance gates. The feedback loop is a first-class phase. Agents assist at every phase.</div>
+
+  <div class="flow-wrap">
+    <div class="flow-row"><div class="fl"><div class="fl-n">PHASE 01</div><div class="fl-t">Intake</div></div>
+      <div class="fr">
+        <div class="lane"><span class="who wb">Tech BA</span><span class="act">runs discovery, captures BU pain points, frames as AI problem statement</span><span class="ext">← Biz BA / BPO / BU</span></div>
+        <div class="lane"><span class="who wag">Intake Agent</span><span class="act">handles conversational intake form for BU teams, classifies, creates Jira ticket, routes to Tech BA</span></div>
+        <div class="lane"><span class="who we">AI Eng</span><span class="act">quick feasibility spike — complexity, data availability, build/buy signal</span></div>
+        <div class="lane"><span class="who wev">Eval Eng</span><span class="act">defines "what good looks like" — success criteria in evaluable terms</span></div>
+      </div>
+    </div>
+    <div class="gate">🔒 <strong>GOV GATE 1 — Go/No-Go:</strong> Architect + AI Lead review. Feasible? Ethical? Policy-aligned? RAI pre-assessment initiated. Only approved items enter design.</div>
+    <div class="flow-row"><div class="fl"><div class="fl-n">PHASE 02</div><div class="fl-t">Design</div></div>
+      <div class="fr">
+        <div class="lane"><span class="who wa">Architect</span><span class="act">high-level solution design, platform fit, reuse of existing components, ADR if needed</span></div>
+        <div class="lane"><span class="who ws">Sys Analyst</span><span class="act">integration spec, API contracts, data flow diagrams</span><span class="ext">← Data Eng</span></div>
+        <div class="lane"><span class="who we">AI Eng</span><span class="act">technical design: model selection, RAG arch, agent design, guardrail config</span></div>
+        <div class="lane"><span class="who wl">Tech Lead</span><span class="act">reviews tech design, raises risks early, aligns with Agent Fabric patterns</span></div>
+        <div class="lane"><span class="who wev">Eval Eng</span><span class="act">builds benchmark dataset, defines eval rubric</span></div>
+        <div class="lane"><span class="who wq">QA</span><span class="act">writes test plan and functional test cases from spec + acceptance criteria</span></div>
+      </div>
+    </div>
+    <div class="flow-row"><div class="fl"><div class="fl-n">PHASE 03</div><div class="fl-t">Build</div></div>
+      <div class="fr">
+        <div class="lane"><span class="who we">AI Eng</span><span class="act">sprint-based development on Agent Fabric, integrates APIs, implements guardrails</span></div>
+        <div class="lane"><span class="who wl">Tech Lead</span><span class="act">code reviews, daily unblocking, tech decision calls, quality bar</span></div>
+        <div class="lane"><span class="who wo">AI Ops</span><span class="act">sets up dev/staging env, CI/CD pipeline, observability hooks</span></div>
+        <div class="lane"><span class="who wev">Eval Eng</span><span class="act">runs eval parallel to each iteration — catches quality regressions before QA</span></div>
+      </div>
+    </div>
+    <div class="flow-row"><div class="fl"><div class="fl-n">PHASE 04</div><div class="fl-t">Test &amp; Eval</div></div>
+      <div class="fr">
+        <div class="lane"><span class="who wq">QA</span><span class="act">executes functional test plan — behavior, regression, edge cases, error handling</span></div>
+        <div class="lane"><span class="who wev">Eval Eng</span><span class="act">full eval suite — accuracy, hallucination, safety, bias, adversarial, RAI checklist</span></div>
+        <div class="lane"><span class="who wb">Tech BA</span><span class="act">verifies acceptance criteria met, prepares UAT handover package</span><span class="ext">→ UAT Team</span></div>
+        <div class="lane"><span class="who we">AI Eng</span><span class="act">fast fix loop for QA bugs + Eval quality issues</span></div>
+      </div>
+    </div>
+    <div class="gate">🔒 <strong>GOV GATE 2 — Deploy Gate:</strong> QA sign-off (functional) + Eval Eng sign-off (AI quality) + AI Ops runbook ready + RAI checklist complete. All three required.</div>
+    <div class="flow-row"><div class="fl"><div class="fl-n">PHASE 05</div><div class="fl-t">Deploy</div></div>
+      <div class="fr">
+        <div class="lane"><span class="who wo">AI Ops</span><span class="act">executes production deployment via CI/CD, confirms observability is live</span></div>
+        <div class="lane"><span class="who wag">Platform Ops Agent</span><span class="act">auto-sends deployment notice + release notes to BU Slack/Teams channel</span></div>
+      </div>
+    </div>
+    <div class="flow-row"><div class="fl"><div class="fl-n">PHASE 06</div><div class="fl-t">Monitor</div></div>
+      <div class="fr">
+        <div class="lane"><span class="who wo">AI Ops</span><span class="act">uptime, latency, cost, error rates, guardrail violations via Grafana</span></div>
+        <div class="lane"><span class="who wev">Eval Eng</span><span class="act">scheduled prod eval — detects model drift, output degradation over time</span></div>
+        <div class="lane"><span class="who wag">Cost Optimizer Agent</span><span class="act">surfaces cost spikes, model efficiency recommendations weekly</span></div>
+        <div class="lane"><span class="who wag">Incident Agent</span><span class="act">detects anomalies, classifies severity, notifies owner, starts RCA automatically</span></div>
+      </div>
+    </div>
+    <div class="flow-row" style="border-bottom:none;"><div class="fl"><div class="fl-n" style="color:var(--blue);">∞</div><div class="fl-t" style="color:var(--blue);">Feedback Loop</div></div>
+      <div class="fr">
+        <div class="lane"><span class="who wb">Tech BA</span><span class="act">collects BU feedback → translates → prioritized backlog items</span><span class="ext">← BU / BPO</span></div>
+        <div class="lane"><span class="who wev">Eval Eng</span><span class="act">prod eval findings → prompt / model improvement candidates</span></div>
+        <div class="lane"><span class="who wag">Delivery Agent</span><span class="act">monthly KR progress report auto-generated for management review</span></div>
+        <div class="lane" style="color:var(--muted);font-size:12px;font-style:italic;">Monthly review: Tech Lead + Architect + Eval Eng + Tech BA review all signals and reprioritize</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════
+     04 · TOOLS
+════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">04 · Tools</div>
+  <div class="sec-title">Toolchain <span class="hl">Stack</span></div>
+  <div class="sec-desc">Organized by function. Agent Fabric is the proprietary layer — everything else is best-of-breed around it.</div>
+
+  <div class="g3">
+    <div class="tool-card" style="border-top:2px solid var(--blue);"><div class="tool-title">AI Development</div><div class="tool-role" style="color:var(--blue);">CORE BUILD STACK</div><div class="tool-desc">Day-to-day tools to build, test, iterate on AI solutions and internal agents.</div><div class="tags"><span class="tag cb">Python / uv</span><span class="tag cb">LangChain</span><span class="tag cb">FastAPI</span><span class="tag cb">Pydantic</span><span class="tag cb">pytest</span><span class="tag cb">Jupyter</span><span class="tag cb">Cursor / Copilot</span></div></div>
+    <div class="tool-card" style="border-top:2px solid var(--purple);"><div class="tool-title">AI Platform (Agent Fabric)</div><div class="tool-role" style="color:var(--purple);">PROPRIETARY PLATFORM</div><div class="tool-desc">Your enterprise AI orchestration layer — the platform everything runs on, including internal agents.</div><div class="tags"><span class="tag cp">Agent Fabric</span><span class="tag cp">Guardrail Service</span><span class="tag cp">LiteLLM Gateway</span><span class="tag cp">RAG Engine</span><span class="tag cp">A2A Protocol</span><span class="tag cp">Kafka</span><span class="tag cp">Redis</span><span class="tag cp">OpenSearch</span></div></div>
+    <div class="tool-card" style="border-top:2px solid var(--green);"><div class="tool-title">Observability &amp; Ops</div><div class="tool-role" style="color:var(--green);">MONITOR · TRACE · ALERT</div><div class="tool-desc">Full-stack visibility. Every trace observed, every cost tracked — for both product solutions and internal agents.</div><div class="tags"><span class="tag cg">Langfuse</span><span class="tag cg">OpenTelemetry</span><span class="tag cg">Grafana</span><span class="tag cg">Prometheus</span><span class="tag cg">ClickHouse</span><span class="tag cg">CloudWatch</span><span class="tag cg">AWS EKS / Helm</span></div></div>
+    <div class="tool-card" style="border-top:2px solid var(--pink);"><div class="tool-title">AI Evaluation</div><div class="tool-role" style="color:var(--pink);">QUALITY · RED TEAM · RAI</div><div class="tool-desc">Owned by Eval Eng. Measures, benchmarks, and adversarially tests AI output quality for all solutions.</div><div class="tags"><span class="tag cr">Promptfoo</span><span class="tag cr">LangSmith</span><span class="tag cr">LLM-as-judge</span><span class="tag cr">Custom eval harness</span><span class="tag cr">Eval dataset store</span></div></div>
+    <div class="tool-card" style="border-top:2px solid var(--amber);"><div class="tool-title">Project &amp; Knowledge</div><div class="tool-role" style="color:var(--amber);">TEAM COORDINATION</div><div class="tool-desc">How the team tracks work, shares knowledge, and aligns. Also serves as the knowledge base for the Knowledge Agent.</div><div class="tags"><span class="tag ca">Jira</span><span class="tag ca">Confluence</span><span class="tag ca">Slack / Teams</span><span class="tag ca">Miro</span><span class="tag ca">GitHub / GitLab</span><span class="tag ca">Notion</span></div></div>
+    <div class="tool-card" style="border-top:2px solid var(--teal);"><div class="tool-title">Research &amp; Intelligence</div><div class="tool-role" style="color:var(--teal);">RESEARCH · BENCHMARKING</div><div class="tool-desc">Tools powering the Research Agent and the squad's active learning practice.</div><div class="tags"><span class="tag" style="color:var(--teal);border-color:#14b8a630;">arXiv API</span><span class="tag" style="color:var(--teal);border-color:#14b8a630;">Hugging Face</span><span class="tag" style="color:var(--teal);border-color:#14b8a630;">Papers With Code</span><span class="tag" style="color:var(--teal);border-color:#14b8a630;">LLM Leaderboard</span><span class="tag" style="color:var(--teal);border-color:#14b8a630;">Internal benchmark store</span></div></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════
+     05 · CAPABILITY
+════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">05 · Capability Model</div>
+  <div class="sec-title">AI Maturity <span class="hl">Framework</span></div>
+  <div class="sec-desc">5-level maturity scale applied to individual, team, and organization. Used to track growth and identify where to invest next.</div>
+
+  <div style="background:var(--s1);border:1px solid var(--border);border-radius:5px;overflow:hidden;">
+    <table class="cap-table">
+      <thead><tr><th>LEVEL</th><th>LABEL</th><th>INDIVIDUAL</th><th>TEAM</th><th>ORGANIZATION</th><th>SIGNAL</th></tr></thead>
+      <tbody>
+        <tr><td><span class="lv lv1">L1</span></td><td>Aware</td><td>Knows what AI/LLM is, can prompt</td><td>Ad-hoc experiments, no process</td><td>Leadership has heard of AI</td><td>1–2 demos done</td></tr>
+        <tr><td><span class="lv lv2">L2</span></td><td>Enabled</td><td>Can build basic AI features</td><td>Has delivery process, first prod deploy</td><td>AI team formed, budget allocated</td><td>First BU use-case in prod</td></tr>
+        <tr><td><span class="lv lv3">L3</span></td><td>Defined</td><td>Designs multi-step AI systems</td><td>Repeatable process, evals, gov gates, internal agents running</td><td>CoE active, AI policy drafted, BU champions in place</td><td>3–5 solutions in prod, RAI policy live, agent ecosystem operational</td></tr>
+        <tr><td><span class="lv lv4">L4</span></td><td>Managed</td><td>Leads AI workstreams, mentors others</td><td>KPI-driven, feedback loops, platform reuse, research practice active</td><td>AI roadmap, governance board, BU self-service starting, each team has private assistant</td><td>BU teams initiate AI requests independently via agents</td></tr>
+        <tr><td><span class="lv lv5">L5</span></td><td>Optimized</td><td>Drives org-wide AI capability</td><td>Continuous improvement, research-to-production pipeline, AI-native ops</td><td>AI embedded in strategy, publishing research, industry benchmark</td><td>AI is competitive moat — not tooling. We are the reference case.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note note-blue" style="margin-top:12px;">🎯 <span class="hl">Current target:</span> Move org from <span style="color:var(--blue);">L1 → L3</span> within 12–18 months. Squad target: <span style="color:var(--green);">L4–L5</span>. The agent ecosystem and research practice are the L4→L5 differentiators that make us a prime example — not just a delivery team.</div>
+</div>
+
+
+<!-- ════════════════════════════
+     06 · CULTURE
+════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">06 · Culture</div>
+  <div class="sec-title">Values &amp; <span class="hl">Culture Code</span></div>
+  <div class="sec-desc">How we work, not just what we build. Given high management trust and an AI-naive org, culture is as strategic as architecture.</div>
+
+  <div class="g3">
+    <div class="cult-card"><div class="cult-icon">🧪</div><div class="cult-name">Experiment Fast, Fail Safe</div><div class="cult-desc">Bias toward action. Build POCs in days. Fail in dev, never in prod. Postmortems are blameless learning events. Speed and safety are not opposites.</div></div>
+    <div class="cult-card"><div class="cult-icon">🫂</div><div class="cult-name">BU Empathy First</div><div class="cult-desc">The BU doesn't know what they don't know. Meet them where they are. Translate pain into AI opportunity. No jargon in BU-facing communications.</div></div>
+    <div class="cult-card"><div class="cult-icon">🏛️</div><div class="cult-name">Responsible by Design</div><div class="cult-desc">RAI, privacy, and fairness are built in — not bolted on. Every solution goes through a governance lens. We earn trust through discipline, not just speed.</div></div>
+    <div class="cult-card"><div class="cult-icon">🔁</div><div class="cult-name">Feedback Loops over Big Bangs</div><div class="cult-desc">Every deployed solution has a feedback channel. KPIs reviewed monthly. Improve based on data. Shipping a v1 that learns beats waiting for a perfect v1.</div></div>
+    <div class="cult-card"><div class="cult-icon">📢</div><div class="cult-name">Share Everything</div><div class="cult-desc">Wins, failures, learnings — all shared in the community. Docs are first-class artifacts. Every squad member teaches once a quarter. Agents publish knowledge automatically.</div></div>
+    <div class="cult-card"><div class="cult-icon">🌱</div><div class="cult-name">Lift Everyone Up</div><div class="cult-desc">Use management trust to pull everyone up. BU champion coaching, workshops, peer mentoring are squad KPIs. The org's AI maturity is our metric too.</div></div>
+    <div class="cult-card"><div class="cult-icon">⚡</div><div class="cult-name">We Run on What We Build</div><div class="cult-desc">Our agents handle our own ops. Our assistants accelerate our own work. If we don't trust our platform enough to run on it ourselves, why would anyone else? Internal deployment is the most credible endorsement.</div></div>
+    <div class="cult-card"><div class="cult-icon">🔬</div><div class="cult-name">Research as a Habit</div><div class="cult-desc">We read papers. We run benchmarks. We track what the field is doing. Research is not a separate track — it feeds directly into our build decisions. The Research Agent makes sure we never fall behind.</div></div>
+    <div class="cult-card"><div class="cult-icon">🏆</div><div class="cult-name">Pioneer Mindset</div><div class="cult-desc">We aim to be the prime example of AI engineering in Thai banking. Not the fastest followers — the ones who others reference. Our architecture decisions, governance frameworks, and agent patterns should be worth sharing externally.</div></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════
+     07 · OKR / KPI
+════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">07 · OKR / KPI</div>
+  <div class="sec-title">Objectives, Key Results <span class="hl">&amp; Metrics</span></div>
+  <div class="sec-desc">Seven objective clusters aligned with being an AI-first organization. All KPIs are quantitative (counts, rates, durations, percentages) or binary (1 = done / 0 = not done) aligned with company objective. Click any objective to expand or collapse.</div>
+
+  <div class="kpi-legend">
+    <div class="kl"><span class="kr-type qt">QUANT</span> Quantitative — a number, rate, or duration</div>
+    <div class="kl"><span class="kr-type bin">BINARY</span> Binary — 1 (done / yes) or 0 (not done / no) · aligned with AI-first company objective</div>
+  </div>
+
+  <!-- O-D DELIVERY -->
+  <div class="okr-block">
+    <div class="okr-head" onclick="toggleOKR(this)"><span class="okr-tag tag-del">O-D · DELIVERY</span><div class="okr-obj">Build the trusted AI delivery engine for the bank</div><span class="okr-chev">▾</span></div>
+    <div class="krs">
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of AI solutions deployed to production per quarter</div><div class="kr-owner"><span class="tag-sm">Tech Lead</span><span class="tag-sm">TPO</span></div></div><div class="kr-target" style="color:#38bdf8;">≥ 3 / Q</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Calendar days from BU intake to first working POC in staging</div><div class="kr-owner"><span class="tag-sm">Tech BA</span><span class="tag-sm">AI Eng</span></div></div><div class="kr-target" style="color:#38bdf8;">≤ 14 days</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> BU satisfaction score (1–5 CSAT) collected post go-live per solution</div><div class="kr-owner"><span class="tag-sm">Tech BA</span></div></div><div class="kr-target" style="color:#38bdf8;">≥ 4.0</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> % of deployed solutions with a documented, measured business impact (hours saved / THB cost reduced / error rate reduced / revenue enabled)</div><div class="kr-owner"><span class="tag-sm">Tech BA</span><span class="tag-sm">TPO</span></div></div><div class="kr-target" style="color:#38bdf8;">≥ 80%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Requirement rework rate — % of user stories returned from dev due to incomplete or incorrect spec</div><div class="kr-owner"><span class="tag-sm">Tech BA</span></div></div><div class="kr-target" style="color:#38bdf8;">&lt; 10%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type bin">BINARY</span> AI project intake portal and status tracker operational and accessible to all BUs this quarter</div><div class="kr-owner"><span class="tag-sm">Intake Agent</span><span class="tag-sm">Tech BA</span></div></div><div class="kr-target" style="color:#38bdf8;">1</div></div>
+    </div>
+  </div>
+
+  <!-- O-Q QUALITY -->
+  <div class="okr-block">
+    <div class="okr-head" onclick="toggleOKR(this)"><span class="okr-tag tag-qual">O-Q · QUALITY &amp; EVAL</span><div class="okr-obj">Ensure AI output is trusted, safe, and measurably improving each quarter</div><span class="okr-chev">▾</span></div>
+    <div class="krs">
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> % of deployed solutions with an active, automated eval suite running in production</div><div class="kr-owner"><span class="tag-sm">Eval Eng</span></div></div><div class="kr-target" style="color:var(--red);">100%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Hallucination / factual error rate across all production solutions (monthly automated eval)</div><div class="kr-owner"><span class="tag-sm">Eval Eng</span></div></div><div class="kr-target" style="color:var(--red);">&lt; 2%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> % of RAI policy violations caught pre-deployment vs. discovered in production</div><div class="kr-owner"><span class="tag-sm">Eval Eng</span><span class="tag-sm">Gov Officer</span></div></div><div class="kr-target" style="color:var(--red);">≥ 95%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Average eval quality benchmark score improvement quarter-over-quarter (normalized across all active solutions)</div><div class="kr-owner"><span class="tag-sm">Eval Eng</span></div></div><div class="kr-target" style="color:var(--red);">+5% QoQ</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of red-team adversarial scenarios executed per production release</div><div class="kr-owner"><span class="tag-sm">Eval Eng</span></div></div><div class="kr-target" style="color:var(--red);">≥ 20</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of eval dataset examples maintained per active solution</div><div class="kr-owner"><span class="tag-sm">Eval Eng</span></div></div><div class="kr-target" style="color:var(--red);">≥ 200</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Functional defect escape rate — % of bugs found by UAT that should have been caught by QA</div><div class="kr-owner"><span class="tag-sm">QA</span></div></div><div class="kr-target" style="color:var(--red);">&lt; 5%</div></div>
+    </div>
+  </div>
+
+  <!-- O-P PLATFORM -->
+  <div class="okr-block">
+    <div class="okr-head" onclick="toggleOKR(this)"><span class="okr-tag tag-plt">O-P · PLATFORM</span><div class="okr-obj">Operate a reliable, observable, cost-efficient AI platform and agent ecosystem</div><span class="okr-chev">▾</span></div>
+    <div class="krs">
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Agent Fabric + LLM gateway measured uptime per month</div><div class="kr-owner"><span class="tag-sm">AI Ops</span></div></div><div class="kr-target" style="color:var(--teal);">≥ 99.5%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Mean time to recovery (MTTR) for P1 platform incidents (minutes)</div><div class="kr-owner"><span class="tag-sm">AI Ops</span></div></div><div class="kr-target" style="color:var(--teal);">≤ 120 min</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> % of all LLM calls with full trace context captured in Langfuse</div><div class="kr-owner"><span class="tag-sm">AI Ops</span></div></div><div class="kr-target" style="color:var(--teal);">100%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> LLM cost per 1k requests — quarter-over-quarter reduction %</div><div class="kr-owner"><span class="tag-sm">AI Ops</span><span class="tag-sm">Cost Agent</span></div></div><div class="kr-target" style="color:var(--teal);">-10% QoQ</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Deployment lead time — hours from code merge to production deployment</div><div class="kr-owner"><span class="tag-sm">AI Ops</span><span class="tag-sm">AI Eng</span></div></div><div class="kr-target" style="color:var(--teal);">≤ 4 hrs</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of active subagents in the internal agent ecosystem</div><div class="kr-owner"><span class="tag-sm">AI Ops</span><span class="tag-sm">AI Eng</span></div></div><div class="kr-target" style="color:var(--teal);">≥ 6 live</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> % of tier-1 internal platform requests resolved by the agent ecosystem without human intervention</div><div class="kr-owner"><span class="tag-sm">AI Ops</span><span class="tag-sm">Orchestrator</span></div></div><div class="kr-target" style="color:var(--teal);">≥ 60%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Average minutes to resolve an internal support request (message to resolved)</div><div class="kr-owner"><span class="tag-sm">Orchestrator Agent</span></div></div><div class="kr-target" style="color:var(--teal);">≤ 15 min</div></div>
+    </div>
+  </div>
+
+  <!-- O-A AUGMENTATION -->
+  <div class="okr-block">
+    <div class="okr-head" onclick="toggleOKR(this)"><span class="okr-tag tag-aug">O-A · AI AUGMENTATION</span><div class="okr-obj">Every squad member operates with an AI assistant — we run on what we build</div><span class="okr-chev">▾</span></div>
+    <div class="krs">
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> % of squad members using their role-specific AI assistant for ≥ 3 tasks per work day (measured via Langfuse session count)</div><div class="kr-owner"><span class="tag-sm">Tech Lead</span></div></div><div class="kr-target" style="color:var(--amber);">≥ 80%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> % of sprint test cases, runbooks, and ADRs with an AI-drafted first version (then human-reviewed)</div><div class="kr-owner"><span class="tag-sm">QA</span><span class="tag-sm">Sys Analyst</span><span class="tag-sm">Architect</span></div></div><div class="kr-target" style="color:var(--amber);">≥ 70%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of manual recurring tasks automated by internal agents per quarter</div><div class="kr-owner"><span class="tag-sm">AI Ops</span><span class="tag-sm">AI Eng</span></div></div><div class="kr-target" style="color:var(--amber);">≥ 5 / Q</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Estimated developer hours recovered per sprint from AI-augmented coding, doc generation, and code review (self-reported in retro)</div><div class="kr-owner"><span class="tag-sm">Tech Lead</span><span class="tag-sm">AI Eng</span></div></div><div class="kr-target" style="color:var(--amber);">≥ 20%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of internal workflows augmented by AI per year (sprint summaries, eval reports, intake auto-fill, cost reports, etc.) — logged in shared registry</div><div class="kr-owner"><span class="tag-sm">All roles</span></div></div><div class="kr-target" style="color:var(--amber);">≥ 12 / yr</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type bin">BINARY</span> AI ROI report published to senior management this quarter — with solution-level impact data</div><div class="kr-owner"><span class="tag-sm">Delivery Agent</span><span class="tag-sm">AI Lead</span></div></div><div class="kr-target" style="color:var(--amber);">1</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of private team assistants live and actively used (measured by daily active sessions)</div><div class="kr-owner"><span class="tag-sm">AI Ops</span></div></div><div class="kr-target" style="color:var(--amber);">≥ 6 roles</div></div>
+    </div>
+  </div>
+
+  <!-- O-R RESEARCH -->
+  <div class="okr-block">
+    <div class="okr-head" onclick="toggleOKR(this)"><span class="okr-tag tag-res">O-R · RESEARCH &amp; INNOVATION</span><div class="okr-obj">Lead as a research-informed AI engineering team — not just a delivery team</div><span class="okr-chev">▾</span></div>
+    <div class="krs">
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of AI papers reviewed and summarized per quarter (via Research Agent digest + squad KS sessions)</div><div class="kr-owner"><span class="tag-sm">Research Agent</span><span class="tag-sm">All roles</span></div></div><div class="kr-target" style="color:var(--pink);">≥ 12 / Q</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of new models / techniques benchmarked against current stack per quarter</div><div class="kr-owner"><span class="tag-sm">Eval Eng</span><span class="tag-sm">AI Eng</span></div></div><div class="kr-target" style="color:var(--pink);">≥ 3 / Q</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of research insights that resulted in a production change or new feature within 90 days (paper → shipped)</div><div class="kr-owner"><span class="tag-sm">Tech Lead</span><span class="tag-sm">Eval Eng</span></div></div><div class="kr-target" style="color:var(--pink);">≥ 2 / Q</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of internal technical articles, architecture posts, or case studies published (Confluence, LinkedIn, GitHub, internal wiki)</div><div class="kr-owner"><span class="tag-sm">All roles</span></div></div><div class="kr-target" style="color:var(--pink);">≥ 6 / yr</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of external AI conference talks, panel appearances, or workshop presentations delivered by squad members</div><div class="kr-owner"><span class="tag-sm">AI Lead</span><span class="tag-sm">Eval Eng</span><span class="tag-sm">Architect</span></div></div><div class="kr-target" style="color:var(--pink);">≥ 2 / yr</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type bin">BINARY</span> Research digest auto-published to AI community channel weekly by the Research Agent without manual input</div><div class="kr-owner"><span class="tag-sm">Research Agent</span><span class="tag-sm">AI Ops</span></div></div><div class="kr-target" style="color:var(--pink);">1</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of POC experiments run per quarter specifically to test a new research technique or model</div><div class="kr-owner"><span class="tag-sm">AI Eng</span><span class="tag-sm">Eval Eng</span></div></div><div class="kr-target" style="color:var(--pink);">≥ 2 / Q</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type bin">BINARY</span> Squad has a benchmark registry — a living record of model performance comparisons accessible to all engineers</div><div class="kr-owner"><span class="tag-sm">Eval Eng</span></div></div><div class="kr-target" style="color:var(--pink);">1</div></div>
+    </div>
+  </div>
+
+  <!-- O-C COMMUNITY -->
+  <div class="okr-block">
+    <div class="okr-head" onclick="toggleOKR(this)"><span class="okr-tag tag-com">O-C · COMMUNITY &amp; KS</span><div class="okr-obj">Build AI literacy, knowledge sharing, and community that makes the org AI-first</div><span class="okr-chev">▾</span></div>
+    <div class="krs">
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of internal squad knowledge sharing sessions held per month (bi-weekly cadence, all roles rotate as presenter)</div><div class="kr-owner"><span class="tag-sm">All roles rotate</span></div></div><div class="kr-target" style="color:var(--green);">≥ 2 / mo</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> % of squad members who presented at least once per quarter</div><div class="kr-owner"><span class="tag-sm">All roles</span></div></div><div class="kr-target" style="color:var(--green);">100%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of knowledge articles, how-tos, and runbooks published to internal wiki per quarter</div><div class="kr-owner"><span class="tag-sm">All roles</span></div></div><div class="kr-target" style="color:var(--green);">≥ 8 / Q</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of active members in AI community channel (posted at least once in last 30 days)</div><div class="kr-owner"><span class="tag-sm">Enablement Lead</span></div></div><div class="kr-target" style="color:var(--green);">≥ 100</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of community AI workshops / lunch &amp; learns hosted for BU staff per month (open to all)</div><div class="kr-owner"><span class="tag-sm">AI Lead</span><span class="tag-sm">Enablement Lead</span></div></div><div class="kr-target" style="color:var(--green);">≥ 1 / mo</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Average number of attendees at community AI sessions</div><div class="kr-owner">track per event</div></div><div class="kr-target" style="color:var(--green);">≥ 20 pax</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of community posts created by non-squad members per month (proof the community has its own momentum)</div><div class="kr-owner"><span class="tag-sm">Enablement Lead</span></div></div><div class="kr-target" style="color:var(--green);">≥ 20 / mo</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of active BU AI champions trained, onboarded, and attending monthly champion sync</div><div class="kr-owner"><span class="tag-sm">Enablement Lead</span></div></div><div class="kr-target" style="color:var(--green);">≥ 20</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> AI literacy baseline training completion rate across all BU staff (%)</div><div class="kr-owner"><span class="tag-sm">Enablement Lead</span></div></div><div class="kr-target" style="color:var(--green);">≥ 70%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Number of AI use-case ideas submitted organically by BU staff per quarter (not prompted by squad)</div><div class="kr-owner"><span class="tag-sm">Tech BA</span> intake log</div></div><div class="kr-target" style="color:var(--green);">≥ 5 / Q</div></div>
+    </div>
+  </div>
+
+  <!-- O-G GOVERNANCE -->
+  <div class="okr-block">
+    <div class="okr-head" onclick="toggleOKR(this)"><span class="okr-tag tag-gov">O-G · GOVERNANCE</span><div class="okr-obj">Establish responsible, policy-compliant AI governance the whole org trusts</div><span class="okr-chev">▾</span></div>
+    <div class="krs">
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> % of deployed solutions with a completed RAI assessment (all 6 dimensions: Privacy, Safety, Security, Accuracy, Fairness, Transparency)</div><div class="kr-owner"><span class="tag-sm">Eval Eng</span><span class="tag-sm">Gov Officer</span></div></div><div class="kr-target" style="color:var(--purple);">100%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> AI governance maturity score on internal 5-level scale (semi-annual internal audit)</div><div class="kr-owner"><span class="tag-sm">AI Lead</span><span class="tag-sm">Gov Officer</span></div></div><div class="kr-target" style="color:var(--purple);">≥ L3 by H2</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> Guardrail critical violation rate — % of high-severity policy violations reaching production (false negatives)</div><div class="kr-owner"><span class="tag-sm">Eval Eng</span><span class="tag-sm">AI Ops</span></div></div><div class="kr-target" style="color:var(--purple);">&lt; 0.1%</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type qt">QUANT</span> AI incident response time — minutes from detection to resolved (all severity levels)</div><div class="kr-owner"><span class="tag-sm">AI Ops</span><span class="tag-sm">Incident Agent</span></div></div><div class="kr-target" style="color:var(--purple);">≤ 240 min</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type bin">BINARY</span> AI policy documentation complete and published this quarter — covering all 4 domains: data use, model approval, vendor LLM, user disclosure</div><div class="kr-owner"><span class="tag-sm">Gov Officer</span><span class="tag-sm">AI Lead</span></div></div><div class="kr-target" style="color:var(--purple);">1</div></div>
+      <div class="kr"><div class="kr-left"><div class="kr-text"><span class="kr-type bin">BINARY</span> EA Committee convened this quarter with documented decision log accessible to all stakeholders</div><div class="kr-owner"><span class="tag-sm">Architect</span><span class="tag-sm">AI Lead</span></div></div><div class="kr-target" style="color:var(--purple);">1</div></div>
+    </div>
+  </div>
+
+  <div class="note note-amber" style="margin-top:14px;">📊 <span class="hl">Reporting cadence:</span> Monthly squad review (all KRs, Delivery Agent auto-report) · Quarterly management report (delivery + ROI + community growth + research output) · Semi-annual governance + maturity audit · Annual external benchmark + published case study.</div>
+</div>
+
+
+<!-- ════════════════════════════
+     08 · GOVERNANCE
+════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">08 · Governance</div>
+  <div class="sec-title">AI CoE &amp; <span class="hl">EA Committee</span></div>
+  <div class="sec-desc">Governance is not a checkpoint — it's a continuous practice. Two mandatory delivery gates, a structured committee, and a clear escalation path for every severity level.</div>
+
+  <div class="g2">
+    <div class="gov-card">
+      <div class="gov-row"><div class="gov-key">AI CoE Scope</div><div class="gov-val">Owns AI strategy, platform (Agent Fabric), policy framework, community, and center of expertise. Acts as internal AI consulting arm for all BUs. Reports to CTO / Digital Head.</div></div>
+      <div class="gov-row"><div class="gov-key">EA Committee (AI)</div><div class="gov-val">Reviews all AI use-case proposals before build. Members: AI Lead (chair), Architect, Gov Officer, Risk/Compliance rep, BU sponsor. Meets bi-weekly or on-demand for intake.</div></div>
+      <div class="gov-row"><div class="gov-key">AI Policy Domains</div><div class="gov-val">RAI (Privacy, Safety, Security, Accuracy, Fairness, Transparency) · Data usage policy · Model approval &amp; auditing · Vendor LLM policy (data residency, SLA, exit) · User-facing AI disclosure (BOT)</div></div>
+      <div class="gov-row"><div class="gov-key">Governance Cadence</div><div class="gov-val">Monthly: KPI review + RAI audit. Quarterly: roadmap review + policy updates. Semi-annual: maturity assessment. Annual: full external audit + benchmark + published case study.</div></div>
+    </div>
+    <div class="gov-card">
+      <div class="gov-row"><div class="gov-key">Internal Platform Support</div><div class="gov-val">Orchestrator + subagents handle tier-1 support autonomously. AI Ops Engineer is accountable for agent behavior and SLA compliance. Tier-2+ escalates to AI Ops + Tech Lead. SLA defined per tool criticality.</div></div>
+      <div class="gov-row"><div class="gov-key">Risk Escalation Path</div><div class="gov-val">AI Engineer → Tech Lead → Architect → EA Committee → Risk Committee (for high-risk). Incident Agent auto-notifies, logs, and starts RCA. All incidents shared in community as learning artifacts.</div></div>
+      <div class="gov-row"><div class="gov-key">Model Approval Process</div><div class="gov-val">New model / LLM provider requires: security review, data residency assessment, RAI benchmark, Eval Eng sign-off, Architect ADR. No model goes to prod without this trail.</div></div>
+      <div class="gov-row"><div class="gov-key">Agent Ecosystem Governance</div><div class="gov-val">All internal agents undergo RAI assessment and eval coverage owned by Eval Eng. Permission tiers: read-only = autonomous · write = confirm step · destructive = human-in-the-loop. All agent I/O passes through guardrail service. All traces in Langfuse.</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════
+     09 · MORE
+════════════════════════════ -->
+<div class="sec">
+  <div class="sec-eyebrow">09 · More</div>
+  <div class="sec-title">Also <span class="hl">Consider Adding</span></div>
+  <div class="sec-desc">High-value additions beyond the core operating model. Each addresses a specific gap or multiplier for the AI-first organization objective.</div>
+
+  <div class="g2">
+    <div class="also-card"><div class="also-icon">🏆</div><div><div class="also-title">AI Champion Network</div><div class="also-desc">Embed 1 AI champion per BU. They act as the first line of AI idea intake and education. Monthly champion sync with CoE. Creates pull demand from BU side instead of pure push — the key signal that AI-first culture is taking hold.</div></div></div>
+    <div class="also-card"><div class="also-icon">🖼️</div><div><div class="also-title">Use-Case Gallery / Internal Portal</div><div class="also-desc">Showcase all deployed AI solutions — what it does, how it was built, metrics achieved. Drives BU self-service discovery and doubles as a credibility artifact for senior management and new stakeholders.</div></div></div>
+    <div class="also-card"><div class="also-icon">🔴</div><div><div class="also-title">Structured Red Team Program</div><div class="also-desc">Periodic adversarial testing — prompt injection, jailbreaks, edge cases — run on both product solutions and internal agents. Critical for banking. Run before every major release and quarterly on live systems.</div></div></div>
+    <div class="also-card"><div class="also-icon">📐</div><div><div class="also-title">AI Design System &amp; Prompt Library</div><div class="also-desc">Standardized prompt patterns, system prompt templates, guardrail configs, eval rubrics. Reduces reinvention, improves consistency, and makes onboarding new AI Engineers dramatically faster. Knowledge Agent sources from this.</div></div></div>
+    <div class="also-card"><div class="also-icon">📦</div><div><div class="also-title">AI Vendor Management Framework</div><div class="also-desc">Policy for evaluating, onboarding, and auditing external AI vendors (OpenAI, Google, AWS Bedrock). Covers data residency, SLA, security review, exit strategy. Non-negotiable for banking compliance and BOT readiness.</div></div></div>
+    <div class="also-card"><div class="also-icon">📋</div><div><div class="also-title">AI Incident Playbook</div><div class="also-desc">Documented runbooks for the most likely AI failure scenarios: hallucination at scale, guardrail bypass, data leakage, unexpected bias. Each: detect → contain → fix → communicate → RCA → share. Incident Agent sources these.</div></div></div>
+    <div class="also-card"><div class="also-icon">📊</div><div><div class="also-title">Published Maturity &amp; Benchmark Report</div><div class="also-desc">Annual external publication of our AI maturity journey, benchmarks run, and key architectural decisions. This is how we become the reference case for AI-first banking in Thailand. The benchmark registry feeds this.</div></div></div>
+    <div class="also-card"><div class="also-icon">🤝</div><div><div class="also-title">External AI Network &amp; Partnerships</div><div class="also-desc">Active participation in AI meetups, banking AI forums, model provider partnerships, and academic collaborations. Brings external benchmarks back in. Elevates the team's industry profile and drives recruitment of strong AI engineers who want to work somewhere doing real things.</div></div></div>
+  </div>
+
+  <hr class="sdiv" style="margin-top:32px;">
+
+  <div style="margin-top:28px;">
+    <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.3px;margin-bottom:14px;">Recommended <span style="color:var(--blue);">Lean Start Sequence</span></div>
+    <div class="g3">
+      <div style="background:var(--s1);border:1px solid var(--border);border-radius:5px;padding:16px 18px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--blue);margin-bottom:8px;">MONTH 1–3 · FOUNDATION</div><div style="font-size:12px;color:var(--dim);line-height:1.6;">Lock governance gates first. Hire Tech BA — unblocks intake quality. Ship Orchestrator + Platform Ops Agent + Knowledge Agent as Phase 1 of internal agent ecosystem. Get 1 BU solution to prod to prove value. Start Research Agent weekly digest.</div></div>
+      <div style="background:var(--s1);border:1px solid var(--border);border-radius:5px;padding:16px 18px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--green);margin-bottom:8px;">MONTH 4–6 · TRACTION</div><div style="font-size:12px;color:var(--dim);line-height:1.6;">Launch AI Champion program. Publish RAI framework. Activate Eval Agent + Delivery Agent. Roll out first 3 team private assistants (AI Eng, Tech BA, Eval Eng). Show ROI report to senior management. Start KS sessions.</div></div>
+      <div style="background:var(--s1);border:1px solid var(--border);border-radius:5px;padding:16px 18px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--purple);margin-bottom:8px;">MONTH 7–12 · PIONEER</div><div style="font-size:12px;color:var(--div);line-height:1.6;">All 9 subagents live. All roles have private assistants. Gov Officer added. BU private assistants rolling out. First external conference talk. First published benchmark or case study. Community at 100+ active members.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <span class="footer-t">ENTERPRISE AI A-TEAM · FULL SQUAD PLAYBOOK v4.0 · ARISE BY INFINITAS · AI COE</span>
+  <span class="footer-t">10 ROLES · 9 SUBAGENTS · 8 TEAM ASSISTANTS · BANKING · PIONEER</span>
+</div>
+
+</div>
+
+<script>
+function toggleOKR(head) {
+  head.classList.toggle('collapsed');
+  var krs = head.nextElementSibling;
+  if (krs) krs.classList.toggle('hidden');
+}
+</script>
+</body>
+</html>
